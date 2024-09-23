@@ -1,0 +1,57 @@
+# Xcode
+DerivedData/
+*.xcuserstate
+*.xcworkspace
+*.xcuserdatad/
+*.xcodeproj/
+
+# Swift Package Manager
+.build/
+Packages/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+
+# Build products
+build/
+*.o
+*.app
+*.dSYM
+*.ipa
+*.framework
+
+# Logs
+*.log
+
+# User-specific files
+*.swp
+*.swo
+*.DS_Store
+*.user
+*.userprefs
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xcuserdatad
+*.xcuserdata
+
+# Simulator
+*.app
+
+# SwiftUI Preview
+*.preview
+
+# Temporary files
+*.tmp
+*.temp
+
+# Swift Package
+Package.resolved
+
+# Coverage
+*.profdata
