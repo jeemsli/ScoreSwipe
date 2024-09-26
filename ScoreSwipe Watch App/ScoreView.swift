@@ -10,13 +10,8 @@ struct ScoreView: View {
     var body: some View {
         HStack {
             Spacer()
-            if match.servingTeam == "Us" {
-                scoreText(match.ourScore, color: .blue)
-                scoreText(match.opponentScore, color: .red)
-            } else {
-                scoreText(match.opponentScore, color: .red)
-                scoreText(match.ourScore, color: .blue)
-            }
+            scoreText(match.servingTeam == "Us" ? match.ourScore : match.opponentScore, color: .blue)
+            scoreText(match.servingTeam == "Us" ? match.opponentScore : match.ourScore, color: .red)
             scoreText(match.position, color: .white)
             Spacer()
         }

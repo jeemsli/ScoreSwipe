@@ -19,36 +19,10 @@ struct MatchView: View {
         NavigationStack {
             GeometryReader { geometry in
                 ZStack {
-                    // Swipe gesture applied to entire screen
+                    // Swipe gesture applied
                     Color.clear
                         .contentShape(.rect)
-                        .gesture(
-                            DragGesture()
-                                .onEnded { value in
-                                    withAnimation(.smooth) {
-                                        let threshold = 50.0
-                                        
-                                        // Swipe up to increase opponent score
-                                        if value.translation.height < -threshold {
-                                            match.updateOpponentScore()
-                                            
-                                        }
-                                        // Swipe down to increase our score
-                                        else if value.translation.height > threshold {
-                                            match.updateOurScore()
-                                            
-                                        }
-                                        
-                                        else if value.translation.width < -threshold {
-                                            undoManager?.undo()
-                                        }
-                                        
-                                        if match.checkMatchFinished() {
-                                            showMatchFinishedAlert = true
-                                        }
-                                    }
-                                }
-                        )
+                        .gesture(dragGesture)
                     
                     // Score in the center
                     ScoreView(match: match)
@@ -117,43 +91,11 @@ struct MatchView: View {
                     .frame(width: geometry.size.width, height: geometry.size.height)
                     .animation(.easeInOut, value: match.partner?.side)
                 }
+                .background(Color.black)
+                .navigationBarBackButtonHidden(true)
+                .alert(isPresented: $showMatchFinishedAlert, content: alertContent)
             }
-            .background(Color.black)
-            .navigationBarBackButtonHidden(true)
-            .alert(isPresented: $showMatchFinishedAlert) {
-                if (match.ourScore >= match.opponentScore) {
-                    return Alert(
-                        title: Text("Your team wins!"),
-                        message: Text("Score: \(match.ourScore) - \(match.opponentScore)"),
-                        primaryButton: .default(Text("Undo"), action: {
-                            // Undo last point
-                            undoManager?.undo()
-                        }),
-                        secondaryButton: .default(Text("New Match"), action: {
-                            presentationMode.wrappedValue.dismiss()
-                            matchSettings.reset()
-                            match.reset(settings: matchSettings)
-                            navigateToNewGame = true
-                        })
-                    )
-                } else {
-                    return Alert(
-                        title: Text("Opponent team wins!"),
-                        message: Text("Score: \(match.opponentScore) - \(match.ourScore)"),
-                        primaryButton: .default(Text("Undo"), action: {
-                            // Undo last point
-                            undoManager?.undo()
-                            
-                        }),
-                        secondaryButton: .default(Text("New Match"), action: {
-                            presentationMode.wrappedValue.dismiss()
-                            matchSettings.reset()
-                            match.reset(settings: matchSettings)
-                            navigateToNewGame = true
-                        })
-                    )
-                }
-            }
+            
             .navigationDestination(isPresented: $navigateToNewGame) {
                 MatchSettingsView(matchSettings: matchSettings)
             }
@@ -161,6 +103,53 @@ struct MatchView: View {
         .onAppear {
             match.undoManager = undoManager
         }
+    }
+    
+    private var dragGesture: some Gesture {
+        DragGesture()
+            .onEnded { value in
+                withAnimation(.smooth) {
+                    handleSwipe(value: value)
+                }
+            }
+    }
+    
+    private func handleSwipe(value: DragGesture.Value) {
+        let threshold: CGFloat = 50.0
+        
+        if value.translation.height < -threshold {
+            match.updateOpponentScore()
+        } else if value.translation.height > threshold {
+            match.updateOurScore()
+        } else if value.translation.width < -threshold {
+            undoManager?.undo()
+        }
+        
+        if match.checkMatchFinished() {
+            showMatchFinishedAlert = true
+        }
+    }
+    
+    private func alertContent() -> Alert {
+        let winner = match.ourScore >= match.opponentScore
+        let title = winner ? "Your team wins!" : "Opponent team wins!"
+        let scoreMessage = winner ? "Score: \(match.ourScore) - \(match.opponentScore)" : "Score: \(match.opponentScore) - \(match.ourScore)"
+        
+        return Alert(
+            title: Text(title),
+            message: Text(scoreMessage),
+            primaryButton: .default(Text("Undo"), action: {
+                undoManager?.undo()
+            }),
+            secondaryButton: .default(Text("New Match"), action: resetMatch)
+        )
+    }
+    
+    private func resetMatch() {
+        presentationMode.wrappedValue.dismiss()
+        matchSettings.reset()
+        match.reset(settings: matchSettings)
+        navigateToNewGame = true
     }
 }
 

@@ -8,79 +8,84 @@ struct MatchSettingsView: View {
             ScrollViewReader { scroll in
                 ScrollView {
                     VStack {
-                        Text("Mode")
-                            .font(.headline)
+                        headerView("Mode")
                             .id("top")
-                        HStack {
-                            Button("Doubles") {
-                                matchSettings.isDoubles = true
-                            }
-                            .background(matchSettings.isDoubles ? Color.blue : Color.black)
-                            .clipShape(.capsule)
-                            .animation(.snappy, value: matchSettings.servingTeam)
-                        }
+                        modeButtons
                         
-                        Text("Match Point")
-                            .font(.headline)
-                        HStack {
-                            ForEach(matchSettings.matchPoints, id: \.self) { points in
-                                Button("\(points)") {
-                                    matchSettings.matchPoint = points
-                                }
-                                .background(matchSettings.matchPoint == points ? Color.blue : Color.black)
-                                .clipShape(.capsule)
-                                .opacity(matchSettings.matchPoint == points ? 1 : 0.5)
-                            }
-                        }
+                        headerView("Match Point")
+                        matchPointButtons
                         
-                        Text("First Serve")
-                            .font(.headline)
-                        HStack {
-                            Button("Us") {
-                                matchSettings.servingTeam = "Us"
-                            }
-                            .background(matchSettings.servingTeam == "Us" ? Color.blue : Color.black)
-                            .clipShape(.capsule)
-                            .opacity(matchSettings.servingTeam == "Us" ? 1 : 0.5)
+                        headerView("First Serve")
+                        servingTeamButtons
+                        
+                        headerView("Starting Side")
+                        startingSideButtons
                             
-                            Button("Them") {
-                                matchSettings.servingTeam = "Them"
-                            }
-                            .background(matchSettings.servingTeam == "Them" ? Color.blue : Color.black)
-                            .clipShape(.capsule)
-                            .opacity(matchSettings.servingTeam == "Them" ? 1 : 0.5)
-                        }
-                        
-                        Text("Starting Side")
-                            .font(.headline)
-                        HStack {
-                            Button("Left") {
-                                matchSettings.startingSide = "Left"
-                            }
-                            .background(matchSettings.startingSide == "Left" ? Color.blue : Color.black)
-                            .clipShape(.capsule)
-                            .opacity(matchSettings.startingSide == "Left" ? 1 : 0.5)
-                            
-                            Button("Right") {
-                                matchSettings.startingSide = "Right"
-                            }
-                            .background(matchSettings.startingSide == "Right" ? Color.blue : Color.black)
-                            .clipShape(.capsule)
-                            .opacity(matchSettings.startingSide == "Right" ? 1 : 0.5)
-                        }
-                        .padding(.bottom)
-                        
                         NavigationLink(destination: MatchView(matchSettings: matchSettings)) {
                             Text("Start Match")
-                                .foregroundStyle(.green)
+                                .foregroundColor(.green)
                         }
+                        .padding(.top)
                     }
-                }
-                .onAppear {
-                    scroll.scrollTo("top", anchor: .top)
+                    .onAppear {
+                        scroll.scrollTo("top", anchor: .top)
+                    }
                 }
             }
         }
+    }
+    
+    private func headerView(_ title: String) -> some View {
+        Text(title)
+            .font(.headline)
+    }
+    
+    private var modeButtons: some View {
+        HStack {
+            settingButton(title: "Doubles", isSelected: matchSettings.isDoubles) {
+                matchSettings.isDoubles = true
+            }
+        }
+    }
+    
+    private var matchPointButtons: some View {
+        HStack {
+            ForEach(matchSettings.matchPoints, id: \.self) { points in
+                settingButton(title: "\(points)", isSelected: matchSettings.matchPoint == points) {
+                    matchSettings.matchPoint = points
+                }
+            }
+        }
+    }
+    
+    private var servingTeamButtons: some View {
+        HStack {
+            settingButton(title: "Us", isSelected: matchSettings.servingTeam == "Us") {
+                matchSettings.servingTeam = "Us"
+            }
+            settingButton(title: "Them", isSelected: matchSettings.servingTeam == "Them") {
+                matchSettings.servingTeam = "Them"
+            }
+        }
+    }
+    
+    private var startingSideButtons: some View {
+        HStack {
+            settingButton(title: "Left", isSelected: matchSettings.startingSide == "Left") {
+                matchSettings.startingSide = "Left"
+            }
+            settingButton(title: "Right", isSelected: matchSettings.startingSide == "Right") {
+                matchSettings.startingSide = "Right"
+            }
+        }
+    }
+    
+    private func settingButton(title: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
+        Button(title, action: action)
+            .background(isSelected ? Color.blue : Color.black)
+            .clipShape(.capsule)
+            .opacity(isSelected ? 1 : 0.5)
+            .animation(.snappy, value: isSelected)
     }
 }
 
