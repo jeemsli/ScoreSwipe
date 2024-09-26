@@ -2,6 +2,7 @@ import SwiftUI
 
 @Observable
 class Match {
+    // Match settings
     var isDoubles: Bool = true
     var matchPoint: Int
     var servingTeam: String
@@ -30,10 +31,10 @@ class Match {
         
         self.undoManager = undoManager
         
-        // Create players
         setUpPlayers(settings: settings)
     }
     
+    // Create players
     func setUpPlayers(settings: MatchSettings) {
         let isUserServing: Bool
         let isOpponentServing: Bool
@@ -171,7 +172,7 @@ class Match {
         }
     }
     
-    // Undo - scores, position, and player states (side and isServing)
+    // Undo - scores, position, servingTeam, and player states (side and isServing)
     private func registerUndo() {
             guard let undoManager = undoManager else { return }
             
