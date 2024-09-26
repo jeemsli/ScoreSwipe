@@ -172,40 +172,28 @@ class Match {
     }
     
     // Undo - scores, position, and player states (side and isServing)
-    func registerUndo() {
-        let previousOurScore = ourScore
-        let previousOpponentScore = opponentScore
-        let previousPosition = position
-        
-        let previousServingTeam = servingTeam
-        
-        let previousUserisServing = user?.isServing
-        let previousUserSide = user?.side
-        let previousPartnerisServing = partner?.isServing
-        let previousPartnerSide = partner?.side
-        let previousOpponentOneisServing = opponentOne?.isServing
-        let previousOpponentOneSide = opponentOne?.side
-        let previousOpponentTwoisServing = opponentTwo?.isServing
-        let previousOpponentTwoSide = opponentTwo?.side
-        
-        // Register the undo action for all the relevant states
-        if let undoManager = undoManager {
+    private func registerUndo() {
+            guard let undoManager = undoManager else { return }
+            
+            let previousState = (ourScore, opponentScore, position, servingTeam, user?.isServing, user?.side,
+                                 partner?.isServing, partner?.side, opponentOne?.isServing, opponentOne?.side,
+                                 opponentTwo?.isServing, opponentTwo?.side)
+            
             undoManager.registerUndo(withTarget: self) { target in
-                target.ourScore = previousOurScore
-                target.opponentScore = previousOpponentScore
-                target.position = previousPosition
-                target.servingTeam = previousServingTeam
-                target.user?.isServing = previousUserisServing!
-                target.user?.side = previousUserSide!
-                target.partner?.isServing = previousPartnerisServing!
-                target.partner?.side = previousPartnerSide!
-                target.opponentOne?.isServing = previousOpponentOneisServing!
-                target.opponentOne?.side = previousOpponentOneSide!
-                target.opponentTwo?.isServing = previousOpponentTwoisServing!
-                target.opponentTwo?.side = previousOpponentTwoSide!
+                target.ourScore = previousState.0
+                target.opponentScore = previousState.1
+                target.position = previousState.2
+                target.servingTeam = previousState.3
+                target.user?.isServing = previousState.4!
+                target.user?.side = previousState.5!
+                target.partner?.isServing = previousState.6!
+                target.partner?.side = previousState.7!
+                target.opponentOne?.isServing = previousState.8!
+                target.opponentOne?.side = previousState.9!
+                target.opponentTwo?.isServing = previousState.10!
+                target.opponentTwo?.side = previousState.11!
             }
         }
-    }
     
     // Create new game based on settings
     func reset(settings: MatchSettings) {
