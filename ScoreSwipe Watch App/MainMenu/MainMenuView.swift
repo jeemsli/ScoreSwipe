@@ -2,7 +2,7 @@ import SwiftUI
 
 struct MainMenuView: View {
     @State private var showUserGuide = false
-    var gameSettings = gameSettings()
+    var gameSettings = GameSettings()
 
     var body: some View {
         NavigationView {
@@ -34,7 +34,7 @@ struct MainMenuView: View {
     }
 
     private var startGameButton: some View {
-        NavigationLink(destination: gameSettingsView(gameSettings: gameSettings)) {
+        NavigationLink(destination: GameSettingsView(gameSettings: gameSettings)) {
             Text("Start")
                 .font(.headline)
                 .foregroundStyle(.green)

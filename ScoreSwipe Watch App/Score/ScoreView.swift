@@ -1,23 +1,23 @@
 import SwiftUI
 
 struct ScoreView: View {
-    var match: Match
+    var game: Game
     
-    init(match: Match) {
-        self.match = match
+    init(game: Game) {
+        self.game = game
     }
     
     var body: some View {
         HStack {
             Spacer()
-            if match.servingTeam == "Us" {
-                scoreText(match.ourScore, color: .blue)
-                scoreText(match.opponentScore, color: .red)
+            if game.servingTeam == "Us" {
+                scoreText(game.ourScore, color: .blue)
+                scoreText(game.opponentScore, color: .red)
             } else {
-                scoreText(match.opponentScore, color: .red)
-                scoreText(match.ourScore, color: .blue)
+                scoreText(game.opponentScore, color: .red)
+                scoreText(game.ourScore, color: .blue)
             }
-            scoreText(match.position, color: .white)
+            scoreText(game.position, color: .white)
             Spacer()
         }
     }
@@ -33,9 +33,9 @@ struct ScoreView: View {
 }
 
 #Preview {
-    let matchSettings = MatchSettings()
+    let gameSettings = GameSettings()
     let undoManager = UndoManager()
-    let match = Match(settings: matchSettings, undoManager: undoManager)
+    let game = Game(settings: gameSettings, undoManager: undoManager)
     
-    return ScoreView(match: match)
+    return ScoreView(game: game)
 }
