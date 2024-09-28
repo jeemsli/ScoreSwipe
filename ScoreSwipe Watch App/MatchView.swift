@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct MatchView: View {
-    @Environment(\.presentationMode) var presentationMode
     @Environment(\.undoManager) var undoManager
     
     var matchSettings: MatchSettings
@@ -146,9 +145,9 @@ struct MatchView: View {
     }
     
     private func resetMatch() {
-        presentationMode.wrappedValue.dismiss()
         matchSettings.reset()
         match.reset(settings: matchSettings)
+        undoManager?.removeAllActions()
         navigateToNewGame = true
     }
 }

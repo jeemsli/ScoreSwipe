@@ -16,8 +16,6 @@ struct UserGuideView: View {
                 Text("Note: For accurate results, swipe from the middle of the screen.")
                     .font(.headline)
             }
-            .padding()
-            .navigationTitle("User Guide")
         }
     }
     
