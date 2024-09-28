@@ -31,7 +31,7 @@ struct PlayerView: View {
 }
 
 #Preview {
-    var player = Player(name: "Me", isOpponent: false, side: "Right", isServing: true)
+    let player = Player(name: "Me", isOpponent: false, side: "Right", isServing: true)
     
     return PlayerView(player: player)
 }

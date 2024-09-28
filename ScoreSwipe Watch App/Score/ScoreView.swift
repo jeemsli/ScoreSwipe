@@ -33,9 +33,9 @@ struct ScoreView: View {
 }
 
 #Preview {
-    var matchSettings = MatchSettings()
-    var undoManager = UndoManager()
-    var match = Match(settings: matchSettings, undoManager: undoManager)
+    let matchSettings = MatchSettings()
+    let undoManager = UndoManager()
+    let match = Match(settings: matchSettings, undoManager: undoManager)
     
     return ScoreView(match: match)
 }

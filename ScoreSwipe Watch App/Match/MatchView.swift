@@ -153,7 +153,7 @@ struct MatchView: View {
 }
 
 #Preview {
-    var matchSettings = MatchSettings()
+    let matchSettings = MatchSettings()
     
     return MatchView(matchSettings: matchSettings)
 }

@@ -15,7 +15,6 @@
 		1AA99B4A2CA70FCB005647F1 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA99B492CA70FCB005647F1 /* MainMenuView.swift */; };
 		1AA99B4C2CA71032005647F1 /* UserGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA99B4B2CA71032005647F1 /* UserGuideView.swift */; };
 		1AD7E8BC2CA20CC900BEA751 /* ScoreSwipeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7E8BB2CA20CC900BEA751 /* ScoreSwipeApp.swift */; };
-		1AD7E8BE2CA20CC900BEA751 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7E8BD2CA20CC900BEA751 /* ContentView.swift */; };
 		1AD7E8C02CA20CCA00BEA751 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AD7E8BF2CA20CCA00BEA751 /* Assets.xcassets */; };
 		1AD7E8C32CA20CCA00BEA751 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AD7E8C22CA20CCA00BEA751 /* Preview Assets.xcassets */; };
 		1AEC63222CA229F200DD744D /* MatchSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEC63212CA229F200DD744D /* MatchSettings.swift */; };
@@ -32,7 +31,6 @@
 		1AA99B4B2CA71032005647F1 /* UserGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGuideView.swift; sourceTree = "<group>"; };
 		1AD7E8B62CA20CC900BEA751 /* ScoreSwipe Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ScoreSwipe Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AD7E8BB2CA20CC900BEA751 /* ScoreSwipeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreSwipeApp.swift; sourceTree = "<group>"; };
-		1AD7E8BD2CA20CC900BEA751 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1AD7E8BF2CA20CCA00BEA751 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1AD7E8C22CA20CCA00BEA751 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1AEC63212CA229F200DD744D /* MatchSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchSettings.swift; sourceTree = "<group>"; };
@@ -71,17 +69,12 @@
 		1AD7E8BA2CA20CC900BEA751 /* ScoreSwipe Watch App */ = {
 			isa = PBXGroup;
 			children = (
-				1AA99B1D2CA63836005647F1 /* Match.swift */,
-				1AA99B1C2CA63836005647F1 /* MatchView.swift */,
-				1AA99B1E2CA63836005647F1 /* Player.swift */,
-				1AA99B1B2CA63836005647F1 /* PlayerView.swift */,
-				1AA99B492CA70FCB005647F1 /* MainMenuView.swift */,
-				1AA99B4B2CA71032005647F1 /* UserGuideView.swift */,
-				1AA99B1F2CA63836005647F1 /* ScoreView.swift */,
 				1AD7E8BB2CA20CC900BEA751 /* ScoreSwipeApp.swift */,
-				1AD7E8BD2CA20CC900BEA751 /* ContentView.swift */,
-				1AEC63212CA229F200DD744D /* MatchSettings.swift */,
-				1AEC63232CA22CA500DD744D /* MatchSettingsView.swift */,
+				1AE5BFCB2CA8916700B063A8 /* MainMenu */,
+				1AE5BFCA2CA8915100B063A8 /* MatchSettings */,
+				1AE5BFC92CA8913E00B063A8 /* Score */,
+				1AE5BFC82CA8913000B063A8 /* Player */,
+				1AE5BFC72CA890D700B063A8 /* Match */,
 				1AD7E8BF2CA20CCA00BEA751 /* Assets.xcassets */,
 				1AD7E8C12CA20CCA00BEA751 /* Preview Content */,
 			);
@@ -94,6 +87,50 @@
 				1AD7E8C22CA20CCA00BEA751 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		1AE5BFC72CA890D700B063A8 /* Match */ = {
+			isa = PBXGroup;
+			children = (
+				1AA99B1D2CA63836005647F1 /* Match.swift */,
+				1AA99B1C2CA63836005647F1 /* MatchView.swift */,
+			);
+			path = Match;
+			sourceTree = "<group>";
+		};
+		1AE5BFC82CA8913000B063A8 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				1AA99B1E2CA63836005647F1 /* Player.swift */,
+				1AA99B1B2CA63836005647F1 /* PlayerView.swift */,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
+		1AE5BFC92CA8913E00B063A8 /* Score */ = {
+			isa = PBXGroup;
+			children = (
+				1AA99B1F2CA63836005647F1 /* ScoreView.swift */,
+			);
+			path = Score;
+			sourceTree = "<group>";
+		};
+		1AE5BFCA2CA8915100B063A8 /* MatchSettings */ = {
+			isa = PBXGroup;
+			children = (
+				1AEC63212CA229F200DD744D /* MatchSettings.swift */,
+				1AEC63232CA22CA500DD744D /* MatchSettingsView.swift */,
+			);
+			path = MatchSettings;
+			sourceTree = "<group>";
+		};
+		1AE5BFCB2CA8916700B063A8 /* MainMenu */ = {
+			isa = PBXGroup;
+			children = (
+				1AA99B492CA70FCB005647F1 /* MainMenuView.swift */,
+				1AA99B4B2CA71032005647F1 /* UserGuideView.swift */,
+			);
+			path = MainMenu;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -168,7 +205,6 @@
 			files = (
 				1AA99B4A2CA70FCB005647F1 /* MainMenuView.swift in Sources */,
 				1AA99B4C2CA71032005647F1 /* UserGuideView.swift in Sources */,
-				1AD7E8BE2CA20CC900BEA751 /* ContentView.swift in Sources */,
 				1AD7E8BC2CA20CC900BEA751 /* ScoreSwipeApp.swift in Sources */,
 				1AA99B242CA63836005647F1 /* ScoreView.swift in Sources */,
 				1AEC63222CA229F200DD744D /* MatchSettings.swift in Sources */,
