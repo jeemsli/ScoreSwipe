@@ -87,13 +87,13 @@
 		1AD7E8BA2CA20CC900BEA751 /* ScoreSwipe Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				1AD7E8BF2CA20CCA00BEA751 /* Assets.xcassets */,
+				1AD7E8BB2CA20CC900BEA751 /* ScoreSwipeApp.swift */,
 				1A053DE12CA898C6005C993C /* Game */,
 				1A053DE42CA898C6005C993C /* GameSettings */,
-				1AD7E8BB2CA20CC900BEA751 /* ScoreSwipeApp.swift */,
 				1AE5BFCB2CA8916700B063A8 /* MainMenu */,
 				1AE5BFC92CA8913E00B063A8 /* Score */,
 				1AE5BFC82CA8913000B063A8 /* Player */,
-				1AD7E8BF2CA20CCA00BEA751 /* Assets.xcassets */,
 				1AD7E8C12CA20CCA00BEA751 /* Preview Content */,
 			);
 			path = "ScoreSwipe Watch App";
