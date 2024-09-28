@@ -23,7 +23,7 @@ struct MatchSettingsView: View {
                             
                         NavigationLink(destination: MatchView(matchSettings: matchSettings)) {
                             Text("Start Match")
-                                .foregroundColor(.green)
+                                .foregroundStyle(.green)
                         }
                         .padding(.top)
                     }
@@ -33,6 +33,7 @@ struct MatchSettingsView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
     
     private func headerView(_ title: String) -> some View {
