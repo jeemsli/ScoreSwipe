@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct MatchSettingsView: View {
-    var matchSettings: MatchSettings
+struct GameSettingsView: View {
+    var gameSettings: GameSettings
     
     var body: some View {
         NavigationStack {
@@ -12,8 +12,8 @@ struct MatchSettingsView: View {
                             .id("top")
                         modeButtons
                         
-                        headerView("Match Point")
-                        matchPointButtons
+                        headerView("Game Point")
+                        gamePointButtons
                         
                         headerView("First Serve")
                         servingTeamButtons
@@ -21,8 +21,8 @@ struct MatchSettingsView: View {
                         headerView("Starting Side")
                         startingSideButtons
                             
-                        NavigationLink(destination: MatchView(matchSettings: matchSettings)) {
-                            Text("Start Match")
+                        NavigationLink(destination: GameView(gameSettings: gameSettings)) {
+                            Text("Start Game")
                                 .foregroundStyle(.green)
                         }
                         .padding(.top)
@@ -43,17 +43,17 @@ struct MatchSettingsView: View {
     
     private var modeButtons: some View {
         HStack {
-            settingButton(title: "Doubles", isSelected: matchSettings.isDoubles) {
-                matchSettings.isDoubles = true
+            settingButton(title: "Doubles", isSelected: gameSettings.isDoubles) {
+                gameSettings.isDoubles = true
             }
         }
     }
     
-    private var matchPointButtons: some View {
+    private var gamePointButtons: some View {
         HStack {
-            ForEach(matchSettings.matchPoints, id: \.self) { points in
-                settingButton(title: "\(points)", isSelected: matchSettings.matchPoint == points) {
-                    matchSettings.matchPoint = points
+            ForEach(gameSettings.gamePoints, id: \.self) { points in
+                settingButton(title: "\(points)", isSelected: gameSettings.gamePoint == points) {
+                    gameSettings.gamePoint = points
                 }
             }
         }
@@ -61,22 +61,22 @@ struct MatchSettingsView: View {
     
     private var servingTeamButtons: some View {
         HStack {
-            settingButton(title: "Us", isSelected: matchSettings.servingTeam == "Us") {
-                matchSettings.servingTeam = "Us"
+            settingButton(title: "Us", isSelected: gameSettings.servingTeam == "Us") {
+                gameSettings.servingTeam = "Us"
             }
-            settingButton(title: "Them", isSelected: matchSettings.servingTeam == "Them") {
-                matchSettings.servingTeam = "Them"
+            settingButton(title: "Them", isSelected: gameSettings.servingTeam == "Them") {
+                gameSettings.servingTeam = "Them"
             }
         }
     }
     
     private var startingSideButtons: some View {
         HStack {
-            settingButton(title: "Left", isSelected: matchSettings.startingSide == "Left") {
-                matchSettings.startingSide = "Left"
+            settingButton(title: "Left", isSelected: gameSettings.startingSide == "Left") {
+                gameSettings.startingSide = "Left"
             }
-            settingButton(title: "Right", isSelected: matchSettings.startingSide == "Right") {
-                matchSettings.startingSide = "Right"
+            settingButton(title: "Right", isSelected: gameSettings.startingSide == "Right") {
+                gameSettings.startingSide = "Right"
             }
         }
     }
@@ -90,9 +90,9 @@ struct MatchSettingsView: View {
     }
 }
 
-struct MatchSettingsView_Previews: PreviewProvider {
+struct GameSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        let sampleSettings = MatchSettings()
-        MatchSettingsView(matchSettings: sampleSettings)
+        let sampleSettings = GameSettings()
+        GameSettingsView(gameSettings: sampleSettings)
     }
 }

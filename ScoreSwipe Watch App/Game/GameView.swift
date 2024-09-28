@@ -1,17 +1,17 @@
 import SwiftUI
 
-struct MatchView: View {
+struct GameView: View {
     @Environment(\.undoManager) var undoManager
     
-    var matchSettings: MatchSettings
-    var match: Match
+    var gameSettings: GameSettings
+    var game: Game
     
-    @State private var showMatchFinishedAlert: Bool = false
+    @State private var showGameFinishedAlert: Bool = false
     @State private var navigateToNewGame: Bool = false
     
-    init(matchSettings: MatchSettings) {
-        self.matchSettings = matchSettings
-        self.match = Match(settings: matchSettings)
+    init(gameSettings: GameSettings) {
+        self.gameSettings = gameSettings
+        self.game = Game(settings: gameSettings)
     }
     
     var body: some View {
@@ -24,83 +24,83 @@ struct MatchView: View {
                         .gesture(dragGesture)
                     
                     // Score in the center
-                    ScoreView(match: match)
+                    ScoreView(game: game)
                     
                     // Opponent 1
                     VStack {
                         HStack {
-                            if match.opponentOne?.side == "Right" {
-                                PlayerView(player: match.opponentOne!)
+                            if game.opponentOne?.side == "Right" {
+                                PlayerView(player: game.opponentOne!)
                                 Spacer()
                             } else {
                                 Spacer()
-                                PlayerView(player: match.opponentOne!)
+                                PlayerView(player: game.opponentOne!)
                             }
                         }
                         Spacer()
                     }
                     .frame(width: geometry.size.width, height: geometry.size.height)
-                    .animation(.easeInOut, value: match.opponentOne?.side)
+                    .animation(.easeInOut, value: game.opponentOne?.side)
                     
                     // Opponent 2
                     VStack {
                         HStack {
-                            if match.opponentTwo?.side == "Left" {
+                            if game.opponentTwo?.side == "Left" {
                                 Spacer()
-                                PlayerView(player: match.opponentTwo!)
+                                PlayerView(player: game.opponentTwo!)
                             } else {
-                                PlayerView(player: match.opponentTwo!)
+                                PlayerView(player: game.opponentTwo!)
                                 Spacer()
                             }
                         }
                         Spacer()
                     }
                     .frame(width: geometry.size.width, height: geometry.size.height)
-                    .animation(.easeInOut, value: match.opponentTwo?.side)
+                    .animation(.easeInOut, value: game.opponentTwo?.side)
                     
                     // User
                     VStack {
                         Spacer()
                         HStack {
-                            if match.user?.side == "Left" {
-                                PlayerView(player: match.user!)
+                            if game.user?.side == "Left" {
+                                PlayerView(player: game.user!)
                                 Spacer()
                             } else {
                                 Spacer()
-                                PlayerView(player: match.user!)
+                                PlayerView(player: game.user!)
                             }
                         }
                     }
                     .frame(width: geometry.size.width, height: geometry.size.height)
-                    .animation(.easeInOut, value: match.user?.side)
+                    .animation(.easeInOut, value: game.user?.side)
                     
                     // Partner
                     VStack {
                         Spacer()
                         HStack {
-                            if match.partner?.side == "Right" {
+                            if game.partner?.side == "Right" {
                                 Spacer()
-                                PlayerView(player: match.partner!)
+                                PlayerView(player: game.partner!)
                             } else {
-                                PlayerView(player: match.partner!)
+                                PlayerView(player: game.partner!)
                                 Spacer()
                             }
                         }
                     }
                     .frame(width: geometry.size.width, height: geometry.size.height)
-                    .animation(.easeInOut, value: match.partner?.side)
+                    .animation(.easeInOut, value: game.partner?.side)
                 }
                 .background(Color.black)
                 .navigationBarBackButtonHidden(true)
-                .alert(isPresented: $showMatchFinishedAlert, content: alertContent)
+                .alert(isPresented: $showGameFinishedAlert, content: alertContent)
             }
             
             .navigationDestination(isPresented: $navigateToNewGame) {
-                MatchSettingsView(matchSettings: matchSettings)
+                GameSettingsView(gameSettings: gameSettings)
             }
         }
         .onAppear {
-            match.undoManager = undoManager
+            game.undoManager = undoManager
         }
     }
     
@@ -117,22 +117,22 @@ struct MatchView: View {
         let threshold: CGFloat = 50.0
         
         if value.translation.height < -threshold {
-            match.updateOpponentScore()
+            game.updateOpponentScore()
         } else if value.translation.height > threshold {
-            match.updateOurScore()
+            game.updateOurScore()
         } else if value.translation.width < -threshold {
             undoManager?.undo()
         }
         
-        if match.checkMatchFinished() {
-            showMatchFinishedAlert = true
+        if game.checkGameFinished() {
+            showGameFinishedAlert = true
         }
     }
     
     private func alertContent() -> Alert {
-        let winner = match.ourScore >= match.opponentScore
+        let winner = game.ourScore >= game.opponentScore
         let title = winner ? "Your team wins!" : "Opponent team wins!"
-        let scoreMessage = winner ? "Score: \(match.ourScore) - \(match.opponentScore)" : "Score: \(match.opponentScore) - \(match.ourScore)"
+        let scoreMessage = winner ? "Score: \(game.ourScore) - \(game.opponentScore)" : "Score: \(game.opponentScore) - \(game.ourScore)"
         
         return Alert(
             title: Text(title),
@@ -140,20 +140,20 @@ struct MatchView: View {
             primaryButton: .default(Text("Undo"), action: {
                 undoManager?.undo()
             }),
-            secondaryButton: .default(Text("New Match"), action: resetMatch)
+            secondaryButton: .default(Text("New Game"), action: resetGame)
         )
     }
     
-    private func resetMatch() {
-        matchSettings.reset()
-        match.reset(settings: matchSettings)
+    private func resetGame() {
+        gameSettings.reset()
+        game.reset(settings: gameSettings)
         undoManager?.removeAllActions()
         navigateToNewGame = true
     }
 }
 
 #Preview {
-    let matchSettings = MatchSettings()
+    let gameSettings = GameSettings()
     
-    return MatchView(matchSettings: matchSettings)
+    return GameView(gameSettings: gameSettings)
 }

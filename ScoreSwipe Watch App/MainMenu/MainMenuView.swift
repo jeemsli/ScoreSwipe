@@ -2,7 +2,7 @@ import SwiftUI
 
 struct MainMenuView: View {
     @State private var showUserGuide = false
-    var matchSettings = MatchSettings()
+    var gameSettings = gameSettings()
 
     var body: some View {
         NavigationView {
@@ -10,7 +10,7 @@ struct MainMenuView: View {
                 backgroundImage
                 VStack(spacing: 10) {
                     titleText
-                    startMatchButton
+                    startGameButton
                     userGuideButton
                 }
                 .padding()
@@ -33,8 +33,8 @@ struct MainMenuView: View {
             .scaledToFill()
     }
 
-    private var startMatchButton: some View {
-        NavigationLink(destination: MatchSettingsView(matchSettings: matchSettings)) {
+    private var startGameButton: some View {
+        NavigationLink(destination: gameSettingsView(gameSettings: gameSettings)) {
             Text("Start")
                 .font(.headline)
                 .foregroundStyle(.green)

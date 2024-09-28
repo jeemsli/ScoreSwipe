@@ -1,10 +1,10 @@
 import SwiftUI
 
 @Observable
-class Match {
-    // Match settings
+class Game {
+    // Game settings
     var isDoubles: Bool = true
-    var matchPoint: Int
+    var gamePoint: Int
     var servingTeam: String
     var startingSide: String
     
@@ -12,7 +12,7 @@ class Match {
     var ourScore: Int = 0
     var opponentScore: Int = 0
     var position: Int = 2
-    var matchFinished: Bool = false
+    var gameFinished: Bool = false
     
     // Players
     var user: Player?
@@ -22,10 +22,10 @@ class Match {
     
     var undoManager: UndoManager?
     
-    // Set up match based on settings
-    init(settings: MatchSettings, undoManager: UndoManager? = nil) {
+    // Set up game based on settings
+    init(settings: GameSettings, undoManager: UndoManager? = nil) {
         self.isDoubles = settings.isDoubles
-        self.matchPoint = settings.matchPoint
+        self.gamePoint = settings.gamePoint
         self.servingTeam = settings.servingTeam
         self.startingSide = settings.startingSide
         
@@ -35,7 +35,7 @@ class Match {
     }
     
     // Create players
-    func setUpPlayers(settings: MatchSettings) {
+    func setUpPlayers(settings: GameSettings) {
         let isUserServing: Bool
         let isOpponentServing: Bool
         
@@ -58,11 +58,11 @@ class Match {
         self.opponentTwo = Player(name: "2", isOpponent: true, side: "Left", isServing: false)
     }
     
-    // Check if match is finished
-    func checkMatchFinished() -> Bool {
-        matchFinished = (ourScore >= matchPoint && ourScore >= (opponentScore + 2)) ||
-        (opponentScore >= matchPoint && opponentScore >= (ourScore + 2))
-        return matchFinished
+    // Check if game is finished
+    func checkGameFinished() -> Bool {
+        gameFinished = (ourScore >= gamePoint && ourScore >= (opponentScore + 2)) ||
+        (opponentScore >= gamePoint && opponentScore >= (ourScore + 2))
+        return gameFinished
     }
     
     // Switch team server
@@ -197,16 +197,16 @@ class Match {
         }
     
     // Create new game based on settings
-    func reset(settings: MatchSettings) {
+    func reset(settings: GameSettings) {
         isDoubles = true
-        matchPoint = settings.matchPoint
+        gamePoint = settings.gamePoint
         servingTeam = settings.servingTeam
         startingSide = settings.startingSide
         
         ourScore = 0
         opponentScore = 0
         position = 2
-        matchFinished = false
+        gameFinished = false
         
         setUpPlayers(settings: settings)
     }
