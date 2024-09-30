@@ -2,8 +2,6 @@ import SwiftUI
 import WatchKit
 
 struct GameView: View {
-    @Environment(\.undoManager) var undoManager
-    
     var gameSettings: GameSettings
     var game: Game
     
@@ -95,13 +93,9 @@ struct GameView: View {
                 .navigationBarBackButtonHidden(true)
                 .alert(isPresented: $showGameFinishedAlert, content: alertContent)
             }
-            
             .navigationDestination(isPresented: $navigateToNewGame) {
                 GameSettingsView(gameSettings: gameSettings)
             }
-        }
-        .onAppear {
-            game.undoManager = undoManager
         }
     }
     
@@ -125,7 +119,7 @@ struct GameView: View {
             game.updateOurScore()
         } else if value.translation.width < -threshold {
             playHapticFeedback(for: "undo")
-            undoManager?.undo()
+            game.undo()
         }
         
         if game.checkGameFinished() {
@@ -137,12 +131,12 @@ struct GameView: View {
         let device = WKInterfaceDevice.current()
         
         switch swipeType {
-            case "point":
-                device.play(.click)
-            case "undo":
-                device.play(.start)
-            default:
-                device.play(.click)
+        case "point":
+            device.play(.click)
+        case "undo":
+            device.play(.start)
+        default:
+            device.play(.click)
         }
     }
     
@@ -155,7 +149,7 @@ struct GameView: View {
             title: Text(title),
             message: Text(scoreMessage),
             primaryButton: .default(Text("Undo"), action: {
-                undoManager?.undo()
+                game.undo()
             }),
             secondaryButton: .default(Text("New Game"), action: resetGame)
         )
@@ -164,7 +158,6 @@ struct GameView: View {
     private func resetGame() {
         gameSettings.reset()
         game.reset(settings: gameSettings)
-        undoManager?.removeAllActions()
         navigateToNewGame = true
     }
 }

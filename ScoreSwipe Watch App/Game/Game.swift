@@ -20,16 +20,14 @@ class Game {
     var opponentOne: Player?
     var opponentTwo: Player?
     
-    var undoManager: UndoManager?
-    
+    private var undoStack: [(ourScore: Int, opponentScore: Int, position: Int, servingTeam: String, userisServing: Bool?, userSide: String?, partnerisServing: Bool?, partnerSide: String?, opponentOneisServing: Bool?, opponentOneSide: String?, opponentTwoisServing: Bool?, opponentTwoSide: String?)] = []
+
     // Set up game based on settings
-    init(settings: GameSettings, undoManager: UndoManager? = nil) {
+    init(settings: GameSettings) {
         self.isDoubles = settings.isDoubles
         self.gamePoint = settings.gamePoint
         self.servingTeam = settings.servingTeam
         self.startingSide = settings.startingSide
-        
-        self.undoManager = undoManager
         
         setUpPlayers(settings: settings)
     }
@@ -67,8 +65,6 @@ class Game {
     
     // Switch team server
     func switchTeamServe() {
-        registerUndo()
-        
         if servingTeam == "Us" {
             if let user = user, let partner = partner {
                 if user.isServing {
@@ -94,8 +90,6 @@ class Game {
     
     // Switch serve to other team
     func switchOtherTeamServe() {
-        registerUndo()
-        
         if servingTeam == "Us" {
             // Right side of opponent serves
             if let opponentOne = opponentOne, let opponentTwo = opponentTwo {
@@ -172,29 +166,30 @@ class Game {
         }
     }
     
-    // Undo - scores, position, servingTeam, and player states (side and isServing)
+    // Register - scores, position, servingTeam, and player states (side and isServing)
     private func registerUndo() {
-            guard let undoManager = undoManager else { return }
-            
-            let previousState = (ourScore, opponentScore, position, servingTeam, user?.isServing, user?.side,
-                                 partner?.isServing, partner?.side, opponentOne?.isServing, opponentOne?.side,
-                                 opponentTwo?.isServing, opponentTwo?.side)
-            
-            undoManager.registerUndo(withTarget: self) { target in
-                target.ourScore = previousState.0
-                target.opponentScore = previousState.1
-                target.position = previousState.2
-                target.servingTeam = previousState.3
-                target.user?.isServing = previousState.4!
-                target.user?.side = previousState.5!
-                target.partner?.isServing = previousState.6!
-                target.partner?.side = previousState.7!
-                target.opponentOne?.isServing = previousState.8!
-                target.opponentOne?.side = previousState.9!
-                target.opponentTwo?.isServing = previousState.10!
-                target.opponentTwo?.side = previousState.11!
-            }
-        }
+        let state = (ourScore, opponentScore, position, servingTeam, user?.isServing, user?.side, partner?.isServing, partner?.side, opponentOne?.isServing, opponentOne?.side, opponentTwo?.isServing, opponentTwo?.side)
+        
+        undoStack.append(state)
+    }
+    
+    func undo() {
+        guard let previousState = undoStack.popLast() else { return }
+        
+        ourScore = previousState.ourScore
+        opponentScore = previousState.opponentScore
+        position = previousState.position
+        servingTeam = previousState.servingTeam
+        
+        user?.isServing = previousState.userisServing!
+        user?.side = previousState.userSide!
+        partner?.isServing = previousState.partnerisServing!
+        partner?.side = previousState.partnerSide!
+        opponentOne?.isServing = previousState.opponentOneisServing!
+        opponentOne?.side = previousState.opponentOneSide!
+        opponentTwo?.isServing = previousState.opponentTwoisServing!
+        opponentTwo?.side = previousState.opponentTwoSide!
+    }
     
     // Create new game based on settings
     func reset(settings: GameSettings) {
@@ -209,5 +204,7 @@ class Game {
         gameFinished = false
         
         setUpPlayers(settings: settings)
+        
+        undoStack.removeAll()
     }
 }

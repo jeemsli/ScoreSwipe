@@ -34,8 +34,7 @@ struct ScoreView: View {
 
 #Preview {
     let gameSettings = GameSettings()
-    let undoManager = UndoManager()
-    let game = Game(settings: gameSettings, undoManager: undoManager)
+    let game = Game(settings: gameSettings)
     
     return ScoreView(game: game)
 }
