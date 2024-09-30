@@ -1,4 +1,5 @@
 import SwiftUI
+import WatchKit
 
 struct GameView: View {
     @Environment(\.undoManager) var undoManager
@@ -117,15 +118,31 @@ struct GameView: View {
         let threshold: CGFloat = 50.0
         
         if value.translation.height < -threshold {
+            playHapticFeedback(for: "point")
             game.updateOpponentScore()
         } else if value.translation.height > threshold {
+            playHapticFeedback(for: "point")
             game.updateOurScore()
         } else if value.translation.width < -threshold {
+            playHapticFeedback(for: "undo")
             undoManager?.undo()
         }
         
         if game.checkGameFinished() {
             showGameFinishedAlert = true
+        }
+    }
+    
+    func playHapticFeedback(for swipeType: String) {
+        let device = WKInterfaceDevice.current()
+        
+        switch swipeType {
+            case "point":
+                device.play(.click)
+            case "undo":
+                device.play(.start)
+            default:
+                device.play(.click)
         }
     }
     

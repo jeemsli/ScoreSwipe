@@ -16,7 +16,6 @@
 		1AA99B242CA63836005647F1 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA99B1F2CA63836005647F1 /* ScoreView.swift */; };
 		1AA99B4A2CA70FCB005647F1 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA99B492CA70FCB005647F1 /* MainMenuView.swift */; };
 		1AA99B4C2CA71032005647F1 /* UserGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA99B4B2CA71032005647F1 /* UserGuideView.swift */; };
-		1ABA95F12CA8A4AE00EDF992 /* WatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ABA95F02CA8A4AE00EDF992 /* WatchKit.framework */; };
 		1AD7E8BC2CA20CC900BEA751 /* ScoreSwipeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7E8BB2CA20CC900BEA751 /* ScoreSwipeApp.swift */; };
 		1AD7E8C02CA20CCA00BEA751 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AD7E8BF2CA20CCA00BEA751 /* Assets.xcassets */; };
 		1AD7E8C32CA20CCA00BEA751 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AD7E8C22CA20CCA00BEA751 /* Preview Assets.xcassets */; };
@@ -32,7 +31,6 @@
 		1AA99B1F2CA63836005647F1 /* ScoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
 		1AA99B492CA70FCB005647F1 /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		1AA99B4B2CA71032005647F1 /* UserGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGuideView.swift; sourceTree = "<group>"; };
-		1ABA95F02CA8A4AE00EDF992 /* WatchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS10.5.sdk/System/Library/Frameworks/WatchKit.framework; sourceTree = DEVELOPER_DIR; };
 		1AD7E8B62CA20CC900BEA751 /* ScoreSwipe Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ScoreSwipe Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AD7E8BB2CA20CC900BEA751 /* ScoreSwipeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreSwipeApp.swift; sourceTree = "<group>"; };
 		1AD7E8BF2CA20CCA00BEA751 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -45,7 +43,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1ABA95F12CA8A4AE00EDF992 /* WatchKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,21 +67,12 @@
 			path = GameSettings;
 			sourceTree = "<group>";
 		};
-		1ABA95EF2CA8A4AE00EDF992 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				1ABA95F02CA8A4AE00EDF992 /* WatchKit.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		1AD7E89D2CA20CC800BEA751 = {
 			isa = PBXGroup;
 			children = (
 				1AF7EA422CA2183C00C31966 /* .gitignore */,
 				1AD7E8BA2CA20CC900BEA751 /* ScoreSwipe Watch App */,
 				1AD7E8A72CA20CC800BEA751 /* Products */,
-				1ABA95EF2CA8A4AE00EDF992 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -359,10 +347,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = ScoreSwipe;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.li.james.ScoreSwipe;
-<<<<<<< HEAD
-				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
-=======
->>>>>>> parent of 0049a37 (Add haptic feedback for swipes)
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -375,7 +360,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.6;
+				WATCHOS_DEPLOYMENT_TARGET = 10.5;
 			};
 			name = Debug;
 		};
@@ -393,10 +378,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = ScoreSwipe;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.li.james.ScoreSwipe;
-<<<<<<< HEAD
-				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
-=======
->>>>>>> parent of 0049a37 (Add haptic feedback for swipes)
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = NO;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -410,7 +392,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 10.6;
+				WATCHOS_DEPLOYMENT_TARGET = 10.5;
 			};
 			name = Release;
 		};
