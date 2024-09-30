@@ -93,9 +93,9 @@ struct GameView: View {
                 .navigationBarBackButtonHidden(true)
                 .alert(isPresented: $showGameFinishedAlert, content: alertContent)
             }
-            .navigationDestination(isPresented: $navigateToNewGame) {
-                GameSettingsView(gameSettings: gameSettings)
-            }
+        }
+        .navigationDestination(isPresented: $navigateToNewGame) {
+            GameSettingsView(gameSettings: gameSettings)
         }
     }
     
@@ -156,8 +156,6 @@ struct GameView: View {
     }
     
     private func resetGame() {
-        gameSettings.reset()
-        game.reset(settings: gameSettings)
         navigateToNewGame = true
     }
 }
