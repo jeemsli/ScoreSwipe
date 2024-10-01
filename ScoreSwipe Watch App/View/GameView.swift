@@ -2,15 +2,15 @@ import SwiftUI
 import WatchKit
 
 struct GameView: View {
-    var gameSettings: GameSettings
-    var game: Game
+    var gameSettingsViewModel: GameSettingsViewModel
+    var gameViewModel: GameViewModel
     
     @State private var showGameFinishedAlert: Bool = false
     @State private var navigateToNewGame: Bool = false
     
-    init(gameSettings: GameSettings) {
-        self.gameSettings = gameSettings
-        self.game = Game(settings: gameSettings)
+    init(gameSettingsViewModel: GameSettingsViewModel) {
+        self.gameSettingsViewModel = gameSettingsViewModel
+        self.gameViewModel = GameViewModel(settings: gameSettingsViewModel.gameSettings)
     }
     
     var body: some View {
@@ -23,71 +23,71 @@ struct GameView: View {
                         .gesture(dragGesture)
                     
                     // Score in the center
-                    ScoreView(game: game)
+                    ScoreView(viewModel: gameViewModel)
                     
                     // Opponent 1
                     VStack {
                         HStack {
-                            if game.opponentOne?.side == "Right" {
-                                PlayerView(player: game.opponentOne!)
+                            if gameViewModel.opponentOne?.side == "Right" {
+                                PlayerView(player: gameViewModel.opponentOne!)
                                 Spacer()
                             } else {
                                 Spacer()
-                                PlayerView(player: game.opponentOne!)
+                                PlayerView(player: gameViewModel.opponentOne!)
                             }
                         }
                         Spacer()
                     }
                     .frame(width: geometry.size.width, height: geometry.size.height)
-                    .animation(.easeInOut, value: game.opponentOne?.side)
+                    .animation(.easeInOut, value: gameViewModel.opponentOne?.side)
                     
                     // Opponent 2
                     VStack {
                         HStack {
-                            if game.opponentTwo?.side == "Left" {
+                            if gameViewModel.opponentTwo?.side == "Left" {
                                 Spacer()
-                                PlayerView(player: game.opponentTwo!)
+                                PlayerView(player: gameViewModel.opponentTwo!)
                             } else {
-                                PlayerView(player: game.opponentTwo!)
+                                PlayerView(player: gameViewModel.opponentTwo!)
                                 Spacer()
                             }
                         }
                         Spacer()
                     }
                     .frame(width: geometry.size.width, height: geometry.size.height)
-                    .animation(.easeInOut, value: game.opponentTwo?.side)
+                    .animation(.easeInOut, value: gameViewModel.opponentTwo?.side)
                     
                     // User
                     VStack {
                         Spacer()
                         HStack {
-                            if game.user?.side == "Left" {
-                                PlayerView(player: game.user!)
+                            if gameViewModel.user?.side == "Left" {
+                                PlayerView(player: gameViewModel.user!)
                                 Spacer()
                             } else {
                                 Spacer()
-                                PlayerView(player: game.user!)
+                                PlayerView(player: gameViewModel.user!)
                             }
                         }
                     }
                     .frame(width: geometry.size.width, height: geometry.size.height)
-                    .animation(.easeInOut, value: game.user?.side)
+                    .animation(.easeInOut, value: gameViewModel.user?.side)
                     
                     // Partner
                     VStack {
                         Spacer()
                         HStack {
-                            if game.partner?.side == "Right" {
+                            if gameViewModel.partner?.side == "Right" {
                                 Spacer()
-                                PlayerView(player: game.partner!)
+                                PlayerView(player: gameViewModel.partner!)
                             } else {
-                                PlayerView(player: game.partner!)
+                                PlayerView(player: gameViewModel.partner!)
                                 Spacer()
                             }
                         }
                     }
                     .frame(width: geometry.size.width, height: geometry.size.height)
-                    .animation(.easeInOut, value: game.partner?.side)
+                    .animation(.easeInOut, value: gameViewModel.partner?.side)
                 }
                 .background(Color.black)
                 .navigationBarBackButtonHidden(true)
@@ -95,7 +95,7 @@ struct GameView: View {
             }
         }
         .navigationDestination(isPresented: $navigateToNewGame) {
-            GameSettingsView(gameSettings: gameSettings)
+            GameSettingsView(gameSettingsViewModel: gameSettingsViewModel)
         }
     }
     
@@ -113,16 +113,16 @@ struct GameView: View {
         
         if value.translation.height < -threshold {
             playHapticFeedback(for: "point")
-            game.updateOpponentScore()
+            gameViewModel.updateOpponentScore()
         } else if value.translation.height > threshold {
             playHapticFeedback(for: "point")
-            game.updateOurScore()
+            gameViewModel.updateOurScore()
         } else if value.translation.width < -threshold {
             playHapticFeedback(for: "undo")
-            game.undo()
+            gameViewModel.undo()
         }
         
-        if game.checkGameFinished() {
+        if gameViewModel.gameFinished {
             showGameFinishedAlert = true
         }
     }
@@ -141,15 +141,15 @@ struct GameView: View {
     }
     
     private func alertContent() -> Alert {
-        let winner = game.ourScore >= game.opponentScore
+        let winner = gameViewModel.ourScore >= gameViewModel.opponentScore
         let title = winner ? "Your team wins!" : "Opponent team wins!"
-        let scoreMessage = winner ? "Score: \(game.ourScore) - \(game.opponentScore)" : "Score: \(game.opponentScore) - \(game.ourScore)"
+        let scoreMessage = winner ? "Score: \(gameViewModel.ourScore) - \(gameViewModel.opponentScore)" : "Score: \(gameViewModel.opponentScore) - \(gameViewModel.ourScore)"
         
         return Alert(
             title: Text(title),
             message: Text(scoreMessage),
             primaryButton: .default(Text("Undo"), action: {
-                game.undo()
+                gameViewModel.undo()
             }),
             secondaryButton: .default(Text("New Game"), action: resetGame)
         )
@@ -161,7 +161,7 @@ struct GameView: View {
 }
 
 #Preview {
-    let gameSettings = GameSettings()
+    let gameSettingsViewModel = GameSettingsViewModel()
     
-    return GameView(gameSettings: gameSettings)
+    return GameView(gameSettingsViewModel: gameSettingsViewModel)
 }

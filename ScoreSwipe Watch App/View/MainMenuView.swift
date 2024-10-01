@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct MainMenuView: View {
+    private var gameSettingsViewModel = GameSettingsViewModel()
     @State private var showUserGuide = false
-    var gameSettings = GameSettings()
-
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -34,7 +34,7 @@ struct MainMenuView: View {
     }
 
     private var startGameButton: some View {
-        NavigationLink(destination: GameSettingsView(gameSettings: gameSettings)) {
+        NavigationLink(destination: GameSettingsView(gameSettingsViewModel: gameSettingsViewModel)) {
             Text("Start")
                 .font(.headline)
                 .foregroundStyle(.green)

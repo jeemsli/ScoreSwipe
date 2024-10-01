@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct GameSettingsView: View {
-    var gameSettings: GameSettings
+    var gameSettingsViewModel: GameSettingsViewModel
     
     var body: some View {
         NavigationStack {
@@ -20,8 +20,8 @@ struct GameSettingsView: View {
                         
                         headerView("Starting Side")
                         startingSideButtons
-                            
-                        NavigationLink(destination: GameView(gameSettings: gameSettings)) {
+                        
+                        NavigationLink(destination: GameView(gameSettingsViewModel: gameSettingsViewModel)) {
                             Text("Start Game")
                                 .foregroundStyle(.green)
                         }
@@ -43,17 +43,17 @@ struct GameSettingsView: View {
     
     private var modeButtons: some View {
         HStack {
-            settingButton(title: "Doubles", isSelected: gameSettings.isDoubles) {
-                gameSettings.isDoubles = true
+            settingButton(title: "Doubles", isSelected: gameSettingsViewModel.gameSettings.isDoubles) {
+                gameSettingsViewModel.selectMode(isDoubles: true)
             }
         }
     }
     
     private var gamePointButtons: some View {
         HStack {
-            ForEach(gameSettings.gamePoints, id: \.self) { points in
-                settingButton(title: "\(points)", isSelected: gameSettings.gamePoint == points) {
-                    gameSettings.gamePoint = points
+            ForEach(gameSettingsViewModel.gameSettings.gamePoints, id: \.self) { points in
+                settingButton(title: "\(points)", isSelected: gameSettingsViewModel.gameSettings.gamePoint == points) {
+                    gameSettingsViewModel.selectGamePoint(points)
                 }
             }
         }
@@ -61,22 +61,22 @@ struct GameSettingsView: View {
     
     private var servingTeamButtons: some View {
         HStack {
-            settingButton(title: "Us", isSelected: gameSettings.servingTeam == "Us") {
-                gameSettings.servingTeam = "Us"
+            settingButton(title: "Us", isSelected: gameSettingsViewModel.gameSettings.servingTeam == "Us") {
+                gameSettingsViewModel.selectServingTeam("Us")
             }
-            settingButton(title: "Them", isSelected: gameSettings.servingTeam == "Them") {
-                gameSettings.servingTeam = "Them"
+            settingButton(title: "Them", isSelected: gameSettingsViewModel.gameSettings.servingTeam == "Them") {
+                gameSettingsViewModel.selectServingTeam("Them")
             }
         }
     }
     
     private var startingSideButtons: some View {
         HStack {
-            settingButton(title: "Left", isSelected: gameSettings.startingSide == "Left") {
-                gameSettings.startingSide = "Left"
+            settingButton(title: "Left", isSelected: gameSettingsViewModel.gameSettings.startingSide == "Left") {
+                gameSettingsViewModel.selectStartingSide("Left")
             }
-            settingButton(title: "Right", isSelected: gameSettings.startingSide == "Right") {
-                gameSettings.startingSide = "Right"
+            settingButton(title: "Right", isSelected: gameSettingsViewModel.gameSettings.startingSide == "Right") {
+                gameSettingsViewModel.selectStartingSide("Right")
             }
         }
     }
@@ -92,7 +92,7 @@ struct GameSettingsView: View {
 
 struct GameSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        let sampleSettings = GameSettings()
-        GameSettingsView(gameSettings: sampleSettings)
+        let viewModel = GameSettingsViewModel()
+        GameSettingsView(gameSettingsViewModel: viewModel)
     }
 }
